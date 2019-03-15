@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -56,16 +58,23 @@ namespace SportPlaces.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SportObjectId,Image")] Photo photo)
+        public async Task<IActionResult> Create([Bind("Id,SportObjectId,Image")] Photo photo, List<IFormFile> Image)
         {
-            if (ModelState.IsValid)
+            foreach (var item in Image)
             {
-                _context.Add(photo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (item.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await item.CopyToAsync(stream);
+                        photo.Image = stream.ToArray();
+                    }
+                }
             }
-            ViewData["SportObjectId"] = new SelectList(_context.SportObjects, "Id", "Name", photo.SportObjectId);
-            return View(photo);
+
+            _context.Add(photo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Photos/Edit/5
@@ -90,35 +99,42 @@ namespace SportPlaces.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SportObjectId,Image")] Photo photo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SportObjectId,Image")] Photo photo, List<IFormFile> Image)
         {
             if (id != photo.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                foreach (var item in Image)
                 {
-                    _context.Update(photo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PhotoExists(photo.Id))
+                    if (item.Length > 0)
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        using (var stream = new MemoryStream())
+                        {
+                            await item.CopyToAsync(stream);
+                            photo.Image = stream.ToArray();
+                        }
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                _context.Update(photo);
+                await _context.SaveChangesAsync();
             }
-            ViewData["SportObjectId"] = new SelectList(_context.SportObjects, "Id", "Name", photo.SportObjectId);
-            return View(photo);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PhotoExists(photo.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Photos/Delete/5

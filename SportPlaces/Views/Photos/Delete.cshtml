@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Image)
+            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" />
         </dd>
     </dl>
     
