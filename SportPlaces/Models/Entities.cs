@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SportPlaces.Models
 {
@@ -10,13 +11,16 @@ namespace SportPlaces.Models
 
         [Required]
         [MaxLength(40)]
+        [Display(Name = "Имя пользователя")]
         public string Login { get; set; }
 
         [Required]
         [MaxLength(19)]
+        [Display(Name = "Телефонный номер")]
         public string Phone { get; set; }
 
         public int? CityId { get; set; }
+        [Display(Name = "Город")]
         public City City { get; set; }
 
         public List<Record> RecordList { get; set; }
@@ -28,6 +32,7 @@ namespace SportPlaces.Models
 
         [Required]
         [MaxLength(65)]
+        [Display(Name = "Название")]
         public string CityName { get; set; }
 
         public List<SportObject> SportObjectList { get; set; }
@@ -40,6 +45,7 @@ namespace SportPlaces.Models
 
         [Required]
         [MaxLength(40)]
+        [Display(Name = "Вид спорта")]
         public string SportKindName { get; set; }
     }
 
@@ -61,30 +67,40 @@ namespace SportPlaces.Models
 
         [Required]
         [MaxLength(40)]
+        [Display(Name = "Название")]
         public string Name { get; set; }
 
+        [Display(Name = "Описание")]
         public string Discription { get; set; }
 
         [Required]
+        [Display(Name = "Максимальное число занимающихся")]
         public int MaxPeople { get; set; }
 
         [Required]
         [DataType(DataType.Time)]
+        [Display(Name = "Начало занятий")]
         public DateTime Beginning { get; set; }
 
         [Required]
         [DataType(DataType.Time)]
+        [Display(Name = "Окончание занятий")]
         public DateTime Ending { get; set; }
 
         [Required]
+        [Display(Name = "Длительнось занятия")]
         public double Interval { get; set; }
 
         [Required]
         public int SportKindId { get; set; }
+
+        [Display(Name = "Вид спорта")]
         public SportKind SportKind { get; set; }
 
         [Required]
         public int CityId { get; set; }
+
+        [Display(Name = "Город")]
         public City City { get; set; }
 
         public List<Photo> PhotoList { get; set; }

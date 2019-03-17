@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,35 @@ namespace SportPlaces.Controllers
 {
     public class SportObjectsController : Controller
     {
+        private class intervalItem
+        {
+            public int Length { get; set; }
+            public string Name { get; set; }
+        }
+
+        private List<intervalItem> intervals = new List<intervalItem>()
+        {
+            new intervalItem { Length = 1, Name="Тридцать минут"},
+            new intervalItem { Length = 2, Name="Один час"},
+            new intervalItem { Length = 3, Name="Полтора часа"},
+        };
+
+        private void GetIntervalName(double value)
+        {
+            switch (value)
+            {
+                case 0.5:
+                    ViewBag.IntervalName = "Тридцать минут";
+                    break;
+                case 1:
+                    ViewBag.IntervalName = "Один час ";
+                    break;
+                case 1.5:
+                    ViewBag.IntervalName = "Полтора часа";
+                    break;
+            }
+        }
+
         private readonly EntitiesContext _context;
 
         public SportObjectsController(EntitiesContext context)
@@ -42,6 +72,8 @@ namespace SportPlaces.Controllers
                 return NotFound();
             }
 
+            GetIntervalName(sportObject.Interval);
+
             return View(sportObject);
         }
 
@@ -50,6 +82,7 @@ namespace SportPlaces.Controllers
         {
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName");
             ViewData["SportKindId"] = new SelectList(_context.SportKinds, "Id", "SportKindName");
+            ViewBag.Intervals = new SelectList(intervals, "Length", "Name");
             return View();
         }
 
@@ -62,6 +95,18 @@ namespace SportPlaces.Controllers
         {
             if (ModelState.IsValid)
             {
+                switch(sportObject.Interval)
+                {
+                    case 1:
+                        sportObject.Interval = 0.5;
+                        break;
+                    case 2:
+                        sportObject.Interval = 1;
+                        break;
+                    case 3:
+                        sportObject.Interval = 1.5;
+                        break;
+                }
                 _context.Add(sportObject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,8 +129,10 @@ namespace SportPlaces.Controllers
             {
                 return NotFound();
             }
+
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", sportObject.CityId);
             ViewData["SportKindId"] = new SelectList(_context.SportKinds, "Id", "SportKindName", sportObject.SportKindId);
+            ViewBag.Intervals = new SelectList(intervals, "Length", "Name");
             return View(sportObject);
         }
 
@@ -106,6 +153,18 @@ namespace SportPlaces.Controllers
                 try
                 {
                     _context.Update(sportObject);
+                    switch (sportObject.Interval)
+                    {
+                        case 1:
+                            sportObject.Interval = 0.5;
+                            break;
+                        case 2:
+                            sportObject.Interval = 1;
+                            break;
+                        case 3:
+                            sportObject.Interval = 1.5;
+                            break;
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -142,6 +201,8 @@ namespace SportPlaces.Controllers
             {
                 return NotFound();
             }
+
+            GetIntervalName(sportObject.Interval);
 
             return View(sportObject);
         }

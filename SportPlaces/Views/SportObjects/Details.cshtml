@@ -4,10 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Подробнее</h2>
 
 <div>
-    <h4>SportObject</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -44,7 +43,7 @@
             @Html.DisplayNameFor(model => model.Interval)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Interval)
+            @ViewBag.IntervalName
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.SportKind)
@@ -61,6 +60,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
+    <a asp-action="Index">Обратно к списку</a>
 </div>

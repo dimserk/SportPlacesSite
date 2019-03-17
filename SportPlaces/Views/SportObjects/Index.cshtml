@@ -4,22 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Сортивные объекты</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Добавить новый</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxPeople)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Beginning)
@@ -46,19 +40,24 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Discription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxPeople)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Beginning)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ending)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Interval)
+                @switch(item.Interval)
+                {
+                    case 0.5:
+                        @:Тридцать минут
+                        break;
+                    case 1:
+                        @:Один час
+                        break;
+                    case 1.5:
+                        @:Полтора часа
+                        break;
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SportKind.SportKindName)
@@ -67,9 +66,9 @@
                 @Html.DisplayFor(modelItem => item.City.CityName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }
