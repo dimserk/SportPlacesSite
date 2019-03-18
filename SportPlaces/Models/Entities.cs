@@ -113,18 +113,23 @@ namespace SportPlaces.Models
         public int Id { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [Display(Name = "Время записи")]
         public DateTime Date { get; set; }
 
         [Required]
+        [Display(Name = "Длительность")]
         public double Length { get; set; }
 
         [Required]
         public int SportObjectId { get; set; }
+
+        [Display(Name = "Спортивный объект")]
         public SportObject SportObject { get; set; }
 
         [Required]
         public int UserId { get; set; }
+
+        [Display(Name = "Пользователь")]
         public User User { get; set; }
     }
 }

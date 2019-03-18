@@ -4,25 +4,28 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Записи</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="SubCreate">Добавить новую</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Length)
+                @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SportObject)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User)
+                Дата записи
+            </th>
+            <th>
+                Время записи
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Length)
             </th>
             <th></th>
         </tr>
@@ -31,21 +34,47 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Length)
+                @Html.DisplayFor(modelItem => item.User.Login)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SportObject.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Login)
+                @item.Date.ToShortDateString()
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @item.Date.ToShortTimeString()
+            </td>
+            <td>
+                @switch (item.Length)
+                {
+                    case 0.5:
+                        @:Тридцать минут
+                        break;
+                    case 1:
+                        @:Один час
+                        break;
+                    case 1.5:
+                        @:Полтора часа
+                        break;
+                    case 2:
+                        @:Два часа
+                        break;
+                    case 2.5:
+                        @:Два с половиной часа
+                        break;
+                    case 3:
+                        @:Три часа
+                        break;
+                    case 4.5:
+                        @:Четыре с половиной часа
+                        break;
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                <!--<a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> | -->
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }
