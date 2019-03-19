@@ -23,4 +23,15 @@ namespace SportPlaces.Models
         public int UserId { get; set; }
         public int SportObjetId { get; set; }
     }
+
+    public class EditRecord
+    {
+        public int Id { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
+        public DateTime Time { get; set; }
+        public double Length { get; set; }
+        public static int SportObjectId { get; set; }
+        public static int UserId { get; set; }
+    }
 }

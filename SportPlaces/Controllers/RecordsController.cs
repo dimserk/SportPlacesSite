@@ -74,31 +74,6 @@ namespace SportPlaces.Controllers
             return View(record);
         }
 
-        // GET: Records/Create
-        public IActionResult Create()
-        {
-            ViewData["SportObjectId"] = new SelectList(_context.SportObjects, "Id", "Name");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Login");
-            return View();
-        }
-
-        // POST: Records/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Date,Length,SportObjectId,UserId")] Record record)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(record);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["SportObjectId"] = new SelectList(_context.SportObjects, "Id", "Name", record.SportObjectId);
-        //    ViewData["UserId"] = new SelectList(_context.Users, "Id", "Login", record.UserId);
-        //    return View(record);
-        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PreRecord preRecord)
@@ -208,13 +183,76 @@ namespace SportPlaces.Controllers
             }
 
             var record = await _context.Records.FindAsync(id);
+            var user = await _context.Users.FindAsync(record.UserId);
+            var sportObject = await _context.SportObjects.FindAsync(record.SportObjectId);
+
             if (record == null)
             {
                 return NotFound();
             }
-            ViewData["SportObjectId"] = new SelectList(_context.SportObjects, "Id", "Name", record.SportObjectId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Login", record.UserId);
-            return View(record);
+
+            var editRecord = new EditRecord();
+
+            editRecord.Id = id ?? default(int);
+            EditRecord.SportObjectId = sportObject.Id;
+            EditRecord.UserId = user.Id;
+
+            ViewBag.UserName = user.Login;
+            ViewBag.SportObjectName = sportObject.Name;
+
+            editRecord.Date = record.Date.Date;
+            editRecord.Time = sportObject.Beginning.Date + record.Date.TimeOfDay;
+
+            List<TimeItem> dateTimes = new List<TimeItem>();
+            var tmpTime = sportObject.Beginning;
+            do
+            {
+                dateTimes.Add(new TimeItem
+                {
+                    ShowTime = tmpTime.ToShortTimeString(),
+                    Time = tmpTime
+                });
+                tmpTime = tmpTime.AddHours(sportObject.Interval);
+            } while (tmpTime != sportObject.Ending);
+
+            ViewBag.DateTimes = new SelectList(dateTimes, "Time", "ShowTime");
+
+            editRecord.Length = (int)(record.Length / sportObject.Interval);
+
+            List<intervalItem> IntervalList;
+            switch (sportObject.Interval)
+            {
+                case 0.5:
+                    IntervalList = new List<intervalItem>()
+                    {
+                        new intervalItem { Name = "Тридцать минут", Length = 1},
+                        new intervalItem { Name = "Один час", Length = 2 },
+                        new intervalItem { Name = "Полтора часа", Length = 3 }
+                    };
+                    break;
+                case 1:
+                    IntervalList = new List<intervalItem>()
+                    {
+                        new intervalItem { Name = "Один час", Length = 1},
+                        new intervalItem { Name = "Два часа", Length = 2 },
+                        new intervalItem { Name = "Три часа", Length = 3 }
+                    };
+                    break;
+                case 1.5:
+                    IntervalList = new List<intervalItem>()
+                    {
+                        new intervalItem { Name = "Полтора часа", Length = 1},
+                        new intervalItem { Name = "Три часа", Length = 2 },
+                        new intervalItem { Name = "Четыре с половиной часа", Length = 3 }
+                    };
+                    break;
+                default:
+                    IntervalList = new List<intervalItem>();
+                    break;
+            }
+            ViewBag.RecordIntervals = new SelectList(IntervalList, "Length", "Name");
+
+            return View(editRecord);
         }
 
         // POST: Records/Edit/5
@@ -222,36 +260,23 @@ namespace SportPlaces.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Length,SportObjectId,UserId")] Record record)
+        public async Task<IActionResult> Edit(EditRecord editRecord)
         {
-            if (id != record.Id)
-            {
-                return NotFound();
-            }
+            var record = new Record();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(record);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RecordExists(record.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["SportObjectId"] = new SelectList(_context.SportObjects, "Id", "Name", record.SportObjectId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Login", record.UserId);
-            return View(record);
+            record.Id = editRecord.Id;
+            record.SportObjectId = EditRecord.SportObjectId;
+            record.UserId = EditRecord.UserId;
+            record.Date = editRecord.Date;
+            record.Date = record.Date + editRecord.Time.TimeOfDay;
+
+            var sportObj = await _context.SportObjects.FindAsync(record.SportObjectId);
+            record.Length = editRecord.Length * sportObj.Interval;
+
+            _context.Update(record);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Records/Delete/5
@@ -270,6 +295,9 @@ namespace SportPlaces.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Date = record.Date.ToShortDateString();
+            ViewBag.Time = record.Date.ToShortTimeString();
 
             return View(record);
         }

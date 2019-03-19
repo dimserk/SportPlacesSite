@@ -1,47 +1,48 @@
-﻿@model SportPlaces.Models.Record
+﻿@model SportPlaces.Models.EditRecord
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h2>Edit</h2>
+<h2>Создание</h2>
 
-<h4>Record</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
+                <label class="control-label">Имя пользователя</label>
+                <label> @ViewBag.UserName</label>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Спортивный объект</label>
+                <label>@ViewBag.SportObjectName</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Дата занятия</label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Length" class="control-label"></label>
-                <input asp-for="Length" class="form-control" />
+                <label class="control-label">Время занятия</label>
+                <select asp-for="Time" asp-items="ViewBag.DateTimes" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Length" class="control-label">Длительность занятия</label>
+                <select asp-for="Length" asp-items="ViewBag.RecordIntervals" class="form-control"></select>
                 <span asp-validation-for="Length" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SportObjectId" class="control-label"></label>
-                <select asp-for="SportObjectId" class="form-control" asp-items="ViewBag.SportObjectId"></select>
-                <span asp-validation-for="SportObjectId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </form>
+        <input type="hidden" asp-for="Id" />
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Обратно к списку</a>
 </div>
 
 @section Scripts {
