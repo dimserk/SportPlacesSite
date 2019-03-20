@@ -3,11 +3,63 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<style>
+    .smallBlock{
+        height: 250px;
+        width: 350px;
+    }
 
-<a asp-area="" asp-controller="Photos" asp-action="Index">Photos</a>
-<a asp-area="" asp-controller="SportKinds" asp-action="Index">SportKinds</a>
-<a asp-area="" asp-controller="Cities" asp-action="Index">Cities</a>
-<a asp-area="" asp-controller="SportObjects" asp-action="Index">SportObjects</a>
-<a asp-area="" asp-controller="Users" asp-action="Index">Users</a>
-<a asp-area="" asp-controller="Records" asp-action="Index">Records</a>
+    .bigBlock{
+        height: 250px;
+        width: 700px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-4 smallBlock">
+        <h3>Записи</h3>
+        <ul>
+            <li>Количество записей: <span class="badge">@ViewBag.RecordsCount</span></li>
+        </ul>
+        <a asp-area="" asp-controller="Records" asp-action="Index">Редактировать</a>
+    </div>
+    <div class="col-md-8">
+        <h3>Спортивные объекты</h3>
+        <ul>
+            <li>Количество спортивных объектов: <span class="badge">@ViewBag.SportObjectsCount</span></li>
+        </ul>
+        <a asp-area="" asp-controller="SportObjects" asp-action="Index">Редактировать</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 smallBlock">
+        <h3>Пользователи</h3>
+        <ul>
+            <li>Количество пользователей: <span class="badge">@ViewBag.UsersCount</span></li>
+        </ul>
+        <a asp-area="" asp-controller="Users" asp-action="Index">Редактировать</a>
+    </div>
+    <div class="col-md-4 smallBlock">
+        <h3>Города</h3>
+        <ul>
+            <li>Количество городов: <span class="badge">@ViewBag.CitiesCount</span></li>
+        </ul>
+        <a asp-area="" asp-controller="Cities" asp-action="Index">Редактировать</a>
+    </div>
+    <div class="col-md-4 smallBlock">
+        <h3>Виды спорта</h3>
+        <ul>
+            <li>Количество видов спорта: <span class="badge">@ViewBag.SportKindsCount</span></li>
+        </ul>
+        <a asp-area="" asp-controller="SportKinds" asp-action="Index">Редактировать</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h3>Фотографии</h3>
+        <ul>
+            <li>Количество фотографий: <span class="badge">@ViewBag.PhotosCount</span></li>
+        </ul>
+        <a asp-area="" asp-controller="Photos" asp-action="Index">Редактировать</a>
+    </div>
+</div>
