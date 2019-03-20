@@ -54,10 +54,14 @@ namespace SportPlaces.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Спортивный объект")]
         public int SportObjectId { get; set; }
+
+        [Display(Name = "Спортивный объект")]
         public SportObject SportObject { get; set; }
 
         [Required]
+        [Display(Name = "Фотография")]
         public byte[] Image { get; set; }
     }
 

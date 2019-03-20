@@ -21,9 +21,19 @@ namespace SportPlaces.Controllers
         }
 
         // GET: Photos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? selectedId)
         {
             var entitiesContext = _context.Photos.Include(p => p.SportObject);
+
+            var sportObjects = _context.SportObjects;
+            ViewBag.SportObjects = new SelectList(sportObjects, "Id", "Name");
+
+            if (selectedId != null)
+            {
+                var plist = from p in entitiesContext where p.SportObject.Id == selectedId select p;
+                return View(await plist.ToListAsync());
+            }
+
             return View(await entitiesContext.ToListAsync());
         }
 

@@ -9,13 +9,25 @@
 <p>
     <a asp-action="Create">Добавить новую</a>
 </p>
+
+<form asp-controller="Photos" asp-action="Index">
+    <div class="form-inline">
+        <select name="selectedId" asp-items="ViewBag.SportObjects" class="form-control">
+            <option>Все спортивные объекты</option>
+        </select>
+        <input type="submit" value="Найти" class="btn btn-info" />
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.SportObject)
             </th>
-            <th></th>
+            <th>
+                Фотография
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -25,8 +37,10 @@
                 @Html.DisplayFor(modelItem => item.SportObject.Name)
             </td>
             <td>
+                <img style="height: 200px; width: 300px" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Image))" />
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>

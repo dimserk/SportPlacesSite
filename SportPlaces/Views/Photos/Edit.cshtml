@@ -18,8 +18,9 @@
                 <span asp-validation-for="SportObjectId" class="text-danger"></span>
             </div>
             <div>
-                <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" />
+                <img style="height: 200px; width: 300px" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" />
             </div>
+            <hr />
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
                 <input type="file" id="files" asp-for="Image" />
