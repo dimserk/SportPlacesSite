@@ -1,0 +1,13 @@
+﻿.block {
+    height: 200px;
+    background-image: url(../images/Block.png);
+    background-repeat: no-repeat;
+}
+
+.innerblock {
+    padding-left: 48px;
+}
+
+.innerblock > a {
+    bottom: 15px;
+}
