@@ -46,6 +46,20 @@ namespace SportPlaces.Controllers.API
             return Ok(photo);
         }
 
+        // GET: api/Photos/s/5
+        [HttpGet("{type}/{id}")]
+        public IEnumerable<Photo> GetPhoto([FromRoute] char type, [FromRoute] int id)
+        {
+            IQueryable<Photo> photos = null;
+
+            if (type == 's')
+            {
+                photos = from photo in _context.Photos where photo.SportObjectId == id select photo;
+            }
+
+            return photos;
+        }
+
         // PUT: api/Photos/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPhoto([FromRoute] int id, [FromBody] Photo photo)

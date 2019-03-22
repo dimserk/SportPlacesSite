@@ -11,3 +11,8 @@
 .innerblock > a {
     bottom: 15px;
 }
+
+.pic {
+    display: block;
+    margin: auto;
+}

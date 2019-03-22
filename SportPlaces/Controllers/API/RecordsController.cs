@@ -46,6 +46,29 @@ namespace SportPlaces.Controllers.API
             return Ok(record);
         }
 
+        // GET: api/Records/s/5 SportObjectId
+        // GET: api/Records/u/5 UserId
+        [HttpGet("{type}/{id}")]
+        public IEnumerable<Record> GetRecord([FromRoute] char type, [FromRoute] int id)
+        {
+            IQueryable<Record> records;
+
+            switch (type)
+            {
+                case 's':
+                    records = from rec in _context.Records where rec.SportObjectId == id select rec;
+                    break;
+                case 'u':
+                    records = from rec in _context.Records where rec.UserId == id select rec;
+                    break;
+                default:
+                    records = null;
+                    break;
+            }
+
+            return records;
+        }
+
         // PUT: api/Records/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRecord([FromRoute] int id, [FromBody] Record record)

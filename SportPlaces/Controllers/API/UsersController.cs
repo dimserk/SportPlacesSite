@@ -46,6 +46,44 @@ namespace SportPlaces.Controllers.API
             return Ok(user);
         }
 
+        // GET: api/Users/l=dimserk
+        [HttpGet("l={login}")]
+        public async Task<IActionResult> GetUser([FromRoute] string login)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
+        // GET: api/Users/l=dimserk/p=89169442184
+        [HttpGet("l={login}/p={phone}")]
+        public async Task<IActionResult> GetUser([FromRoute] string login, [FromRoute] string phone)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login && u.Phone == phone);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
