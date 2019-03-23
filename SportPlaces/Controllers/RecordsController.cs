@@ -74,6 +74,42 @@ namespace SportPlaces.Controllers
             return View(record);
         }
 
+        public IActionResult AjaxCreate()
+        {
+            ViewBag.UserId = new SelectList(_context.Users, "Id", "Login");
+            ViewBag.SportObjectId = new SelectList(_context.SportObjects, "Id", "Name");
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AjaxCreate(ExpandedRecord expRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                var record = new Record();
+
+                record.UserId = expRecord.UserId;
+                record.SportObjectId = expRecord.SportObjectId;
+
+                var sportObject = await _context.SportObjects.FindAsync(expRecord.SportObjectId);
+                record.Length = expRecord.Length * sportObject.Interval;
+
+                record.Date = expRecord.Date;
+                record.Date = record.Date.AddHours(expRecord.Time.Hour);
+                record.Date = record.Date.AddMinutes(expRecord.Time.Minute);
+
+                _context.Add(record);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.UserId = new SelectList(_context.Users, "Id", "Login");
+            ViewBag.SportObjectId = new SelectList(_context.SportObjects, "Id", "Name");
+            return View(expRecord);
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PreRecord preRecord)

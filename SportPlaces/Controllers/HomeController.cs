@@ -10,8 +10,18 @@ namespace SportPlaces.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly EntitiesContext _context;
+
+        public HomeController(EntitiesContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
+            ViewBag.UsersCount = _context.Users.Count();
+            ViewBag.SportObjectsCount = _context.SportObjects.Count();
+
             return View();
         }
 

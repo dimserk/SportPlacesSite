@@ -144,5 +144,81 @@ namespace SportPlaces.Controllers.API
         {
             return _context.Records.Any(e => e.Id == id);
         }
+
+        //AjaxApi
+
+        public class TimeItem
+        {
+            public string ShowTime { get; set; }
+            public DateTime Time { get; set; }
+        }
+
+        //GET: api/Records/ajax/t/5
+        [HttpGet("ajax/t/{id}")]
+        public List<TimeItem> GetTime([FromRoute] int id)
+        {
+            var sportObject = (from so in _context.SportObjects where so.Id == id select so).FirstOrDefault();
+
+            List<TimeItem> dateTimes = new List<TimeItem>();
+            var tmpTime = sportObject.Beginning;
+            do
+            {
+                dateTimes.Add(new TimeItem
+                {
+                    ShowTime = tmpTime.ToShortTimeString(),
+                    Time = tmpTime
+                });
+                tmpTime = tmpTime.AddHours(sportObject.Interval);
+            } while (tmpTime != sportObject.Ending);
+
+            return dateTimes;
+        }
+
+        public class intervalItem
+        {
+            public int Length { get; set; }
+            public string Name { get; set; }
+        }
+
+        //GET: api/Records/ajax/l/5
+        [HttpGet("ajax/l/{id}")]
+        public List<intervalItem> GetLength([FromRoute] int id)
+        {
+            var sportObject = (from so in _context.SportObjects where so.Id == id select so).FirstOrDefault();
+
+            List<intervalItem> IntervalList;
+            switch (sportObject.Interval)
+            {
+                case 0.5:
+                    IntervalList = new List<intervalItem>()
+                    {
+                        new intervalItem { Name = "Тридцать минут", Length = 1},
+                        new intervalItem { Name = "Один час", Length = 2 },
+                        new intervalItem { Name = "Полтора часа", Length = 3 }
+                    };
+                    break;
+                case 1:
+                    IntervalList = new List<intervalItem>()
+                    {
+                        new intervalItem { Name = "Один час", Length = 1},
+                        new intervalItem { Name = "Два часа", Length = 2 },
+                        new intervalItem { Name = "Три часа", Length = 3 }
+                    };
+                    break;
+                case 1.5:
+                    IntervalList = new List<intervalItem>()
+                    {
+                        new intervalItem { Name = "Полтора часа", Length = 1},
+                        new intervalItem { Name = "Три часа", Length = 2 },
+                        new intervalItem { Name = "Четыре с половиной часа", Length = 3 }
+                    };
+                    break;
+                default:
+                    IntervalList = new List<intervalItem>();
+                    break;
+            }
+
+            return IntervalList;
+        }
     }
 }

@@ -6,7 +6,9 @@
 
 <div class="row">
     <div class="col-md-12" style="display:block; margin:auto">
-        <img src="~/images/MainPic1.png" style="display:block; margin:auto" class="img-thumbnail img-responsive" />
+        <a asp-area="" asp-controller="RecordsView" asp-action="SportObjectsRecords">
+            <img src="~/images/MainPic1.png" style="display:block; margin:auto" class="img-thumbnail img-responsive" />
+        </a>
     </div>
 </div>
 
@@ -14,7 +16,9 @@
 
 <div class="row">
     <div class="col-md-12">
-        <img src="~/images/MainPic2.png" style="display:block; margin:auto" class="img-thumbnail img-responsive" />
+        <a asp-area="" asp-controller="RecordsView" asp-action="UsersRecords">
+            <img src="~/images/MainPic2.png" style="display:block; margin:auto" class="img-thumbnail img-responsive" />
+        </a>
     </div>
 </div>
     
@@ -24,8 +28,8 @@
     <div class="col-md-4">
         <h3>Общая информация</h3>
         <ul style="font-size: 20px">
-            <li>Спортивных объектов - <span class="badge">12</span></li>
-            <li>Пользователей - <span class="badge">8</span></li>
+            <li>Спортивных объектов - <span class="badge">@ViewBag.SportObjectsCount</span></li>
+            <li>Пользователей - <span class="badge">@ViewBag.UsersCount</span></li>
         </ul>
     </div>
 </div>

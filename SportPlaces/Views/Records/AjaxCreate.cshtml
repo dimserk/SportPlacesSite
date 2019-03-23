@@ -1,0 +1,45 @@
+﻿@model SportPlaces.Models.ExpandedRecord
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Добавить</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AjaxCreate" name="CreateForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label">Имя пользователя</label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SportObjectId" class="control-label">Спортивный объект</label>
+                <select asp-for="SportObjectId" class="form-control" asp-items="ViewBag.SportObjectId" id="SportObjectSelect" >
+                    <option value="-1">Выберети спортивный объект</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Дата записи</label>
+                <input asp-for="Date" type="date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label">Время записи</label>
+                <select asp-for="Time" class="form-control" id="TimeSelect"></select>
+            </div>
+            <div class="form-group" >
+                <label asp-for="Length" class="control-label"></label>
+                <select asp-for="Length" class="form-control" id="LengthSelect"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Обратно к списку</a>
+</div>

@@ -34,4 +34,13 @@ namespace SportPlaces.Models
         public static int SportObjectId { get; set; }
         public static int UserId { get; set; }
     }
+
+    public class ExpandedRecord
+    {
+        public DateTime Date { get; set; }
+        public double Length { get; set; }
+        public int SportObjectId { get; set; }
+        public int UserId { get; set; }
+        public DateTime Time { get; set; }
+    }
 }
