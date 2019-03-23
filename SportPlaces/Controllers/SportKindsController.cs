@@ -24,24 +24,6 @@ namespace SportPlaces.Controllers
             return View(await _context.SportKinds.ToListAsync());
         }
 
-        // GET: SportKinds/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var sportKind = await _context.SportKinds
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (sportKind == null)
-            {
-                return NotFound();
-            }
-
-            return View(sportKind);
-        }
-
         // GET: SportKinds/Create
         public IActionResult Create()
         {

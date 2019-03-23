@@ -37,25 +37,6 @@ namespace SportPlaces.Controllers
             return View(await entitiesContext.ToListAsync());
         }
 
-        // GET: Photos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var photo = await _context.Photos
-                .Include(p => p.SportObject)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (photo == null)
-            {
-                return NotFound();
-            }
-
-            return View(photo);
-        }
-
         // GET: Photos/Create
         public IActionResult Create()
         {

@@ -24,24 +24,6 @@ namespace SportPlaces
             return View(await _context.Cities.ToListAsync());
         }
 
-        // GET: Cities/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var city = await _context.Cities
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (city == null)
-            {
-                return NotFound();
-            }
-
-            return View(city);
-        }
-
         // GET: Cities/Create
         public IActionResult Create()
         {

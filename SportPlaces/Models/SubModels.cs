@@ -6,24 +6,6 @@ using System.Threading.Tasks;
 
 namespace SportPlaces.Models
 {
-    public class HelpRecord
-    {
-        public int UserId { get; set; }
-        public int SportObjectId { get; set; }
-    }
-
-    public class PreRecord
-    {
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
-
-        [DataType(DataType.Time)]
-        public DateTime Time { get; set; }
-        public int PreLength { get; set; }
-        public int UserId { get; set; }
-        public int SportObjetId { get; set; }
-    }
-
     public class EditRecord
     {
         public int Id { get; set; }
