@@ -220,5 +220,155 @@ namespace SportPlaces.Controllers.API
 
             return IntervalList;
         }
+
+        /// ///////////////////////////////////////
+
+        public class SportObjectRecord
+        {
+            public string Time { get; set; }
+            public string Login { get; set; }
+            public string Length { get; set; }
+        }
+
+        //GET: api/Records/ajax/s//1/2
+        [HttpGet("ajax/s/{Date}/{SportObjectId}")]
+        public List<SportObjectRecord> GetSportObjectRecords([FromRoute] string Date, [FromRoute] int SportObjectId)
+        {
+            var sRecords = new List<SportObjectRecord>();
+
+            DateTime date = new DateTime();
+            DateTime.TryParse(Date, out date);
+            DateTime dateEnd = date.AddDays(1);
+
+            var allRecords = _context.Records.Include(r => r.User);
+
+            var records = (from rec in allRecords where rec.SportObjectId == SportObjectId && (date <= rec.Date && rec.Date <= dateEnd) select rec).ToList();
+
+            foreach (var rec in records)
+            {
+                var sRecord = new SportObjectRecord();
+                sRecord.Login = rec.User.Login;
+                sRecord.Time = rec.Date.ToShortTimeString();
+                switch (rec.Length)
+                {
+                    case 0.5:
+                        sRecord.Length = "Тридцать минут";
+                        break;
+                    case 1:
+                        sRecord.Length = "Один час";
+                        break;
+                    case 1.5:
+                        sRecord.Length = "Полтора часа";
+                        break;
+                    case 2:
+                        sRecord.Length = "Два часа";
+                        break;
+                    case 3:
+                        sRecord.Length = "Три часа";
+                        break;
+                    case 4.5:
+                        sRecord.Length = "Четыре с половиной";
+                        break;
+                }
+
+                sRecords.Add(sRecord);
+            }
+
+            return sRecords;
+        }
+
+        public class UserRecord
+        {
+            public string Date { get; set; }
+            public string UserName { get; set; }
+            public string Length { get; set; }
+        }
+
+        //GET: api/Records/ajax/u//1/2
+        [HttpGet("ajax/u/{UserId}/{Date}")]
+        public List<UserRecord> GetUserRecords([FromRoute] int UserId, [FromRoute] string Date)
+        {
+            var userRecords = new List<UserRecord>();
+
+            if (Date != "undefined")
+            {
+                var records = _context.Records.Include(r => r.SportObject).Include(r => r.User);
+
+                DateTime date = new DateTime();
+                DateTime.TryParse(Date, out date);
+                DateTime dateEnd = date.AddDays(1);
+
+                var fullUserRecords = (from record in records where record.UserId == UserId && (date <= record.Date && record.Date <= dateEnd) select record).ToList();
+
+                foreach (var record in fullUserRecords)
+                {
+                    var userRec = new UserRecord();
+                    userRec.Date = record.Date.ToString();
+                    userRec.UserName = record.User.Login;
+
+                    switch (record.Length)
+                    {
+                        case 0.5:
+                            userRec.Length = "Тридцать минут";
+                            break;
+                        case 1:
+                            userRec.Length = "Один час";
+                            break;
+                        case 1.5:
+                            userRec.Length = "Полтора часа";
+                            break;
+                        case 2:
+                            userRec.Length = "Два часа";
+                            break;
+                        case 3:
+                            userRec.Length = "Три часа";
+                            break;
+                        case 4.5:
+                            userRec.Length = "Четыре с половиной";
+                            break;
+                    }
+
+                    userRecords.Add(userRec);
+                }
+            }
+            else
+            {
+                var records = _context.Records.Include(r => r.SportObject).Include(r => r.User);
+
+                var fullUserRecords = (from record in records where record.UserId == UserId select record).ToList();
+
+                foreach (var record in fullUserRecords)
+                {
+                    var userRec = new UserRecord();
+                    userRec.Date = record.Date.ToString();
+                    userRec.UserName = record.User.Login;
+
+                    switch (record.Length)
+                    {
+                        case 0.5:
+                            userRec.Length = "Тридцать минут";
+                            break;
+                        case 1:
+                            userRec.Length = "Один час";
+                            break;
+                        case 1.5:
+                            userRec.Length = "Полтора часа";
+                            break;
+                        case 2:
+                            userRec.Length = "Два часа";
+                            break;
+                        case 3:
+                            userRec.Length = "Три часа";
+                            break;
+                        case 4.5:
+                            userRec.Length = "Четыре с половиной";
+                            break;
+                    }
+
+                    userRecords.Add(userRec);
+                }
+            }
+            return userRecords;
+        }
     }
 }

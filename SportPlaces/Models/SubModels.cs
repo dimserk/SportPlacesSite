@@ -25,4 +25,10 @@ namespace SportPlaces.Models
         public int UserId { get; set; }
         public DateTime Time { get; set; }
     }
+
+    public class SportObjectsRecords
+    {
+        public DateTime Date { get; set; }
+        public int SportObjectId { get; set; }
+    }
 }

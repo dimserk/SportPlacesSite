@@ -3,5 +3,30 @@
     ViewData["Title"] = "UsersRecords";
 }
 
-<h2>UsersRecords</h2>
+<h2>Записи пользователей</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <input type="date" class="form-control" style="margin-bottom: 15px" id="DateInput2" />
+            <select asp-items="ViewBag.UsersSelect" class="form-control" id="UserSelect">
+                <option value="0">Выберети пользователя</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Дата посещения</th>
+                    <th>Спортивный объект</th>
+                    <th>Длительность занятия</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
 

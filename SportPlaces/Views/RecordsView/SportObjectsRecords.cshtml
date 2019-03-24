@@ -1,7 +1,31 @@
-﻿
+﻿@model SportPlaces.Models.SportObjectsRecords
+
 @{
     ViewData["Title"] = "SportObjectsRecords";
 }
 
-<h2>SportObjectsRecords</h2>
+<h2>Записи на спортивные объекты</h2>
 
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <input asp-for="Date" type="date" class="form-control" style="margin-bottom: 15px" id="DateInput"/>
+            <select asp-for="SportObjectId" asp-items="ViewBag.SportObjectsSelect" class="form-control" id="SportObjectSelect"></select>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Время посещения</th>
+                    <th>Имя пользователя</th>
+                    <th>Длительность занятия</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
