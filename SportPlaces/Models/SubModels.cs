@@ -31,4 +31,16 @@ namespace SportPlaces.Models
         public DateTime Date { get; set; }
         public int SportObjectId { get; set; }
     }
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "Имя пользователя не указано")]
+        [Display(Name = "Имя пользователя")]
+        public string Login { get; set; }
+
+        [Required(ErrorMessage = "Пароль не указан")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
+    }
 }

@@ -1,0 +1,32 @@
+﻿@model SportPlaces.Models.SiteUser
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Удаление</h2>
+
+<h3>Вы действительно хотите удалить запись?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Login)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Login)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd>
+            ⚫⚫⚫⚫⚫
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-default" /> |
+        <a asp-action="Index">Обратно к списку</a>
+    </form>
+</div>

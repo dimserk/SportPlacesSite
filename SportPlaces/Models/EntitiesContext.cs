@@ -15,6 +15,8 @@ namespace SportPlaces.Models
         public DbSet<City> Cities { get; set; }
         public DbSet<Record> Records { get; set; }
 
+        public DbSet<SiteUser> SiteUsers { get; set; }
+
         public EntitiesContext(DbContextOptions<EntitiesContext> option) : base(option)
         {
             Database.EnsureCreated();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,47 +13,62 @@ using SportPlaces.Models;
 namespace SportPlaces.Controllers
 {
     [Authorize]
-    public class UsersController : Controller
+    public class SiteUsersController : Controller
     {
         private readonly EntitiesContext _context;
 
-        public UsersController(EntitiesContext context)
+        public SiteUsersController(EntitiesContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: SiteUsers
         public async Task<IActionResult> Index()
         {
-            var entitiesContext = _context.Users.Include(u => u.City);
-            return View(await entitiesContext.ToListAsync());
+            return View(await _context.SiteUsers.ToListAsync());
         }
 
-        // GET: Users/Create
+        // GET: SiteUsers/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var siteUser = await _context.SiteUsers
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (siteUser == null)
+            {
+                return NotFound();
+            }
+
+            return View(siteUser);
+        }
+
+        // GET: SiteUsers/Create
         public IActionResult Create()
         {
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: SiteUsers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Login,Phone,CityId")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Login,Password")] SiteUser siteUser)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(siteUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", user.CityId);
-            return View(user);
+            return View(siteUser);
         }
 
-        // GET: Users/Edit/5
+        // GET: SiteUsers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -59,23 +76,22 @@ namespace SportPlaces.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var siteUser = await _context.SiteUsers.FindAsync(id);
+            if (siteUser == null)
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", user.CityId);
-            return View(user);
+            return View(siteUser);
         }
 
-        // POST: Users/Edit/5
+        // POST: SiteUsers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Login,Phone,CityId")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Login,Password")] SiteUser siteUser)
         {
-            if (id != user.Id)
+            if (id != siteUser.Id)
             {
                 return NotFound();
             }
@@ -84,12 +100,12 @@ namespace SportPlaces.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(siteUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!SiteUserExists(siteUser.Id))
                     {
                         return NotFound();
                     }
@@ -100,11 +116,10 @@ namespace SportPlaces.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", user.CityId);
-            return View(user);
+            return View(siteUser);
         }
 
-        // GET: Users/Delete/5
+        // GET: SiteUsers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -112,31 +127,36 @@ namespace SportPlaces.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .Include(u => u.City)
+            var siteUser = await _context.SiteUsers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (siteUser == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(siteUser);
         }
 
-        // POST: Users/Delete/5
+        // POST: SiteUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            var siteUser = await _context.SiteUsers.FindAsync(id);
+            _context.SiteUsers.Remove(siteUser);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool SiteUserExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.SiteUsers.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
