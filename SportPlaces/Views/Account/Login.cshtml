@@ -1,12 +1,13 @@
 ﻿@model SportPlaces.Models.LoginModel
 
-<h2>Вход на сайт</h2>
 
-<div class="row">
-    <div class="col-md-4">
+<div class="row" style="margin-top: 15%">
+    <div class="col-md-4" style="margin-left: 35%; margin-bottom: 30px;">
+        <img src="~/images/Circle.png" class="img-responsive" style="margin-left: 40%; margin-bottom: 15px;" />
         <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
             <div class="validation" asp-validation-summary="ModelOnly" />
             <div>
+                <label class="label-danger">@Model?.Error</label>
                 <div class="form-group">
                     <label asp-for="Login" class="control-label"></label>
                     <input type="text" asp-for="Login" class="form-control" />

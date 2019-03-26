@@ -17,6 +17,12 @@ namespace SportPlaces.Controllers
         public AccountController(EntitiesContext context)
         {
             _context = context;
+
+            if (!_context.SiteUsers.Any())
+            {
+                _context.SiteUsers.Add( new SiteUser { Login = "admin", Password = "admin" } );
+                _context.SaveChanges();
+            }
         }
 
         [HttpGet]
@@ -38,7 +44,8 @@ namespace SportPlaces.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                model.Error = "Некорректные логин и(или) пароль";
+                //ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
         }
