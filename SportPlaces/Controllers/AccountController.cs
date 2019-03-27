@@ -42,10 +42,9 @@ namespace SportPlaces.Controllers
                 {
                     await Authenticate(model.Login); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "DBPage");
                 }
                 model.Error = "Некорректные логин и(или) пароль";
-                //ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
         }

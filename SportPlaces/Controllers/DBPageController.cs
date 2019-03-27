@@ -8,7 +8,7 @@ using SportPlaces.Models;
 
 namespace SportPlaces.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class DBPageController : Controller
     {
         private readonly EntitiesContext _context;
