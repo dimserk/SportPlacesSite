@@ -109,12 +109,22 @@ namespace SportPlaces.Controllers
                         sportObject.Interval = 1.5;
                         break;
                 }
-                _context.Add(sportObject);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var workLen = sportObject.Beginning.Subtract(sportObject.Ending);
+                if (workLen.TotalHours % sportObject.Interval == 0)
+                {
+                    _context.Add(sportObject);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Error = "Неверный интервал занятий!";
+                }
             }
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", sportObject.CityId);
             ViewData["SportKindId"] = new SelectList(_context.SportKinds, "Id", "SportKindName", sportObject.SportKindId);
+            ViewBag.Intervals = new SelectList(intervals, "Length", "Name");
             return View(sportObject);
         }
 

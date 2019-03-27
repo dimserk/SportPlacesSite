@@ -39,6 +39,7 @@
             <div class="form-group">
                 <label asp-for="Interval" class="control-label">Длительность занятия</label>
                 <select asp-for="Interval" asp-items="ViewBag.Intervals" class="form-control"></select>
+                <label class="label-danger">@ViewBag?.Error</label>
             </div>
             <div class="form-group">
                 <label asp-for="SportKindId" class="control-label">Вид спорта</label>
