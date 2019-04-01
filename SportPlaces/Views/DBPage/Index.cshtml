@@ -6,7 +6,7 @@
 <div class="row" style="height: 40px;"></div>
 
 <div class="row">
-    <div class="block col-md-4">
+    <div class="block smallBlock col-md-3">
         <div class="innerblock">
             <h3>Записи</h3>
             <ul>
@@ -15,7 +15,7 @@
             <a asp-area="" asp-controller="Records" asp-action="Index">Редактировать</a>
         </div>
     </div>
-    <div class="block col-md-8">
+    <div class="block bigBlockSportObject col-md-7" style="width: 638px">
         <div class="innerblock">
             <h3>Спортивные объекты</h3>
             <ul>
@@ -29,16 +29,16 @@
 <div class="row" style="height: 40px;"></div>
 
 <div class="row">
-    <div class="block col-md-4">
+    <div class="block smallBlock col-md-3">
         <div class="innerblock">
-            <h3>Пользователи</h3>
+            <h3>Фотографии</h3>
             <ul>
-                <li>Количество пользователей: <span class="badge">@ViewBag.UsersCount</span></li>
+                <li>Количество фотографий: <span class="badge">@ViewBag.PhotosCount</span></li>
             </ul>
-            <a asp-area="" asp-controller="Users" asp-action="Index">Редактировать</a>
+            <a asp-area="" asp-controller="Photos" asp-action="Index">Редактировать</a>
         </div>
     </div>
-    <div class="col-md-4 block">
+    <div class="col-md-3 smallBlock block">
         <div class="innerblock">
             <h3>Города</h3>
             <ul>
@@ -47,7 +47,7 @@
             <a asp-area="" asp-controller="Cities" asp-action="Index">Редактировать</a>
         </div>
     </div>
-    <div class="col-md-4 block">
+    <div class="col-md-3 smallBlock block">
         <div class="innerblock">
             <h3>Виды спорта</h3>
             <ul>
@@ -61,13 +61,13 @@
 <div class="row" style="height: 40px;"></div>
 
 <div class="row">
-    <div class="col-md-4 block">
+    <div class="col-md-7 block bigBlockUsers" style="width: 638px">
         <div class="innerblock">
-            <h3>Фотографии</h3>
+            <h3>Пользователи</h3>
             <ul>
-                <li>Количество фотографий: <span class="badge">@ViewBag.PhotosCount</span></li>
+                <li>Количество пользователей: <span class="badge">@ViewBag.UsersCount</span></li>
             </ul>
-            <a asp-area="" asp-controller="Photos" asp-action="Index">Редактировать</a>
+            <a asp-area="" asp-controller="Users" asp-action="Index">Редактировать</a>
         </div>
     </div>
 </div>

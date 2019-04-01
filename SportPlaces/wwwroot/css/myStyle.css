@@ -1,15 +1,36 @@
 ﻿.block {
     height: 200px;
-    background-image: url(../images/LeftBlock.png);
+    position: relative;
+    margin: 10px 25px;
+}
+
+.smallBlock {
+    background-image: url(../images/SmallBlock.png);
+    background-repeat: no-repeat;
+}
+
+.bigBlockSportObject {
+    background-image: url(../images/BigBlockSportObject.png);
+    background-repeat: no-repeat;
+}
+
+.bigBlockUsers {
+    background-image: url(../images/BigBlockUsers.png);
     background-repeat: no-repeat;
 }
 
 .innerblock {
-    padding-left: 48px;
+    padding-left: 35px;
 }
 
 .innerblock > a {
-    bottom: 15px;
+    position: absolute;
+    bottom: 25px;
+    left: 65px;
+}
+
+.innerblock > ul {
+    padding-left: 18px;
 }
 
 .pic {
