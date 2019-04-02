@@ -78,7 +78,7 @@ namespace SportPlaces.Models
         public string Discription { get; set; }
 
         [Required]
-        [Display(Name = "Максимальное число занимающихся")]
+        [Display(Name = "Занимающихся")]
         public int MaxPeople { get; set; }
 
         [Required]
