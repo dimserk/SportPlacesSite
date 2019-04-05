@@ -36,6 +36,11 @@ namespace SportPlaces.Controllers
                 return NotFound();
             }
 
+            if (User.Identity.Name != "admin")
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             var siteUser = await _context.SiteUsers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (siteUser == null)
@@ -74,6 +79,11 @@ namespace SportPlaces.Controllers
             if (id == null)
             {
                 return NotFound();
+            }
+
+            if (User.Identity.Name != "admin")
+            {
+                return RedirectToAction(nameof(Index));
             }
 
             var siteUser = await _context.SiteUsers.FindAsync(id);
@@ -125,6 +135,11 @@ namespace SportPlaces.Controllers
             if (id == null)
             {
                 return NotFound();
+            }
+
+            if (User.Identity.Name != "admin")
+            {
+                return RedirectToAction(nameof(Index));
             }
 
             var siteUser = await _context.SiteUsers
