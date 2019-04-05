@@ -10,12 +10,13 @@ namespace SportPlaces.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(40)]
+        [MaxLength(40, ErrorMessage = "Логин должен быть меньше 40 символов")]
         [Display(Name = "Имя пользователя")]
         public string Login { get; set; }
 
         [Required]
         [MaxLength(19)]
+        [RegularExpression(@"[0-9]*", ErrorMessage = "Номер должен состоять только из цифр")]
         [Display(Name = "Телефонный номер")]
         public string Phone { get; set; }
 
@@ -33,6 +34,7 @@ namespace SportPlaces.Models
         [Required]
         [MaxLength(65)]
         [Display(Name = "Название")]
+        [RegularExpression(@"[А-Я][а-я]*", ErrorMessage = "Название города должно начинаться с большой буквы")]
         public string CityName { get; set; }
 
         public List<SportObject> SportObjectList { get; set; }
@@ -46,6 +48,7 @@ namespace SportPlaces.Models
         [Required]
         [MaxLength(40)]
         [Display(Name = "Вид спорта")]
+        [RegularExpression(@"[А-Я а-я][а-я \s]*", ErrorMessage = "Название вида спорта должно содержать только буквы")]
         public string SportKindName { get; set; }
     }
 
@@ -70,7 +73,7 @@ namespace SportPlaces.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(40)]
+        [MaxLength(40, ErrorMessage = "Название спортивного объекта должно быть менее 40 символов")]
         [Display(Name = "Название")]
         public string Name { get; set; }
 

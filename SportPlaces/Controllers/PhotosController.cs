@@ -22,6 +22,12 @@ namespace SportPlaces.Controllers
             _context = context;
         }
 
+        public IActionResult Error(string message)
+        {
+            ViewBag.Message = message;
+            return View();
+        }
+
         // GET: Photos
         public async Task<IActionResult> Index(int? selectedId)
         {
@@ -120,7 +126,7 @@ namespace SportPlaces.Controllers
             {
                 if (!PhotoExists(photo.Id))
                 {
-                    return NotFound();
+                    return RedirectToAction(nameof(Error));
                 }
                 else
                 {

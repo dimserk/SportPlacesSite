@@ -20,6 +20,12 @@ namespace SportPlaces.Controllers
             _context = context;
         }
 
+                public IActionResult Error(string message)
+        {
+            ViewBag.Message = message;
+            return View();
+        }
+
         // GET: SportKinds
         public async Task<IActionResult> Index()
         {
@@ -87,7 +93,7 @@ namespace SportPlaces.Controllers
                 {
                     if (!SportKindExists(sportKind.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error));
                     }
                     else
                     {

@@ -64,6 +64,12 @@ namespace SportPlaces
             return View(city);
         }
 
+        public IActionResult Error(string message)
+        {
+            ViewBag.Message = message;
+            return View();
+        }
+
         // POST: Cities/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -87,7 +93,7 @@ namespace SportPlaces
                 {
                     if (!CityExists(city.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error));
                     }
                     else
                     {

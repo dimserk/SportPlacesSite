@@ -55,6 +55,12 @@ namespace SportPlaces.Controllers
             _context = context;
         }
 
+        public IActionResult Error(string message)
+        {
+            ViewBag.Message = message;
+            return View();
+        }
+
         // GET: Records
         public async Task<IActionResult> Index()
         {

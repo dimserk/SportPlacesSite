@@ -206,7 +206,7 @@ namespace SportPlaces.Controllers
                 {
                     if (!SportObjectExists(sportObject.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error));
                     }
                     else
                     {
@@ -218,6 +218,12 @@ namespace SportPlaces.Controllers
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", sportObject.CityId);
             ViewData["SportKindId"] = new SelectList(_context.SportKinds, "Id", "SportKindName", sportObject.SportKindId);
             return View(sportObject);
+        }
+
+        public IActionResult Error(string message)
+        {
+            ViewBag.Message = message;
+            return View();
         }
 
         // GET: SportObjects/Delete/5
