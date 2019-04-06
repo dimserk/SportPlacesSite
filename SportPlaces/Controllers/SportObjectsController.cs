@@ -51,33 +51,10 @@ namespace SportPlaces.Controllers
         }
 
         // GET: SportObjects
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index()
         {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["StartSortParm"] = sortOrder == "Start" ? "start_desc" : "Start";
-
-            var sportObjects = from s in _context.SportObjects.Include(s => s.City).Include(s => s.SportKind) select s;
-
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    sportObjects = sportObjects.OrderByDescending(s => s.Name);
-                    break;
-                case "Start":
-                    sportObjects = sportObjects.OrderBy(s => s.Beginning);
-                    break;
-                case "start_desc":
-                    sportObjects = sportObjects.OrderByDescending(s => s.Beginning);
-                    break;
-                default:
-                    sportObjects = sportObjects.OrderBy(s => s.Name);
-                    break;
-            }
-
-            return View(await sportObjects.ToListAsync());
-
-            //var entitiesContext = _context.SportObjects.Include(s => s.City).Include(s => s.SportKind);
-            //return View(await entitiesContext.ToListAsync());
+            var entitiesContext = _context.SportObjects.Include(s => s.City).Include(s => s.SportKind);
+            return View(await entitiesContext.ToListAsync());
         }
 
         // GET: SportObjects/Details/5
