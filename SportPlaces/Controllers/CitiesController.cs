@@ -21,9 +21,16 @@ namespace SportPlaces
         }
 
         // GET: Cities
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Cities.ToListAsync());
+            var cities = from c in _context.Cities select c;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                cities = from c in cities where c.CityName.Contains(searchString) select c; 
+            }
+
+            return View(await cities.ToListAsync());
         }
 
         // GET: Cities/Create

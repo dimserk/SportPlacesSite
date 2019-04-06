@@ -9,6 +9,19 @@
 <p>
     <a asp-action="Create">Добавить новый</a>
 </p>
+
+<hr/>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Поиск по названию: <input type="text" name="SearchString" />
+            <input type="submit" value="Найти" class="btn btn-default" /> |
+            <a asp-action="Index">К исходному списку</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
