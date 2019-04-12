@@ -60,7 +60,7 @@ function GetUserRecords(userId, date) {
             $("table tbody").empty();
             var row = "";
             $.each(recs, function (index, rec) {
-                row += "<tr><td>" + rec.date + "</td><td>" + rec.userName + "</td><td>" + rec.length + "</td></tr>";
+                row += "<tr><td>" + rec.date + "</td><td>" + rec.sportObjectName + "</td><td>" + rec.length + "</td></tr>";
             })
             $("table tbody").append(row);
 

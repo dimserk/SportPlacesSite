@@ -282,6 +282,7 @@ namespace SportPlaces.Controllers.API
             public string Date { get; set; }
             public string UserName { get; set; }
             public string Length { get; set; }
+            public string SportObjectName { get; set; }
         }
 
         //GET: api/Records/ajax/u//1/2
@@ -342,6 +343,7 @@ namespace SportPlaces.Controllers.API
                     var userRec = new UserRecord();
                     userRec.Date = record.Date.ToString();
                     userRec.UserName = record.User.Login;
+                    userRec.SportObjectName = record.SportObject.Name;
 
                     switch (record.Length)
                     {
